@@ -1,0 +1,339 @@
+/* MT WC Bricks Add to Cart - Modern Architecture */
+
+/* ===== TOKENS ===== */
+:root {
+	/* Color Tokens */
+	--mt-wc-color-primary: #007cba;
+	--mt-wc-color-primary-hover: #005a87;
+	--mt-wc-color-success: #00a32a;
+	--mt-wc-color-error: #d63638;
+	--mt-wc-color-text: #ffffff;
+	--mt-wc-color-background: #ffffff;
+	--mt-wc-color-border: #dcdcde;
+
+	/* Spacing Tokens */
+	--mt-wc-space-xs: 0.25rem;   /* 4px */
+	--mt-wc-space-sm: 0.5rem;    /* 8px */
+	--mt-wc-space-md: 0.75rem;   /* 12px */
+	--mt-wc-space-lg: 1rem;      /* 16px */
+	--mt-wc-space-xl: 1.5rem;    /* 24px */
+
+	/* Typography Tokens */
+	--mt-wc-font-size-sm: 0.875rem;  /* 14px */
+	--mt-wc-font-size-base: 1rem;   /* 16px */
+	--mt-wc-font-size-lg: 1.125rem;  /* 18px */
+	--mt-wc-line-height-tight: 1.25;
+	--mt-wc-line-height-normal: 1.5;
+
+	/* Border Tokens */
+	--mt-wc-radius-sm: 0.25rem;   /* 4px */
+	--mt-wc-radius-md: 0.375rem;   /* 6px */
+	--mt-wc-radius-lg: 0.5rem;     /* 8px */
+	--mt-wc-radius-full: 9999px;
+
+	/* Shadow Tokens */
+	--mt-wc-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	--mt-wc-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--mt-wc-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+	/* Animation Tokens */
+	--mt-wc-duration-fast: 150ms;
+	--mt-wc-duration-normal: 300ms;
+	--mt-wc-duration-slow: 500ms;
+	--mt-wc-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+	--mt-wc-ease-out: cubic-bezier(0, 0, 0.2, 1);
+	--mt-wc-ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+	/* Size Tokens */
+	--mt-wc-size-touch: 2.75rem;    /* 44px - minimum touch target */
+	--mt-wc-size-icon: 1.25rem;     /* 20px */
+	--mt-wc-size-icon-lg: 1.5rem;    /* 24px */
+}
+
+/* ===== BASE ===== */
+.mt-wc-add-to-cart-wrapper {
+	display: inline-block;
+	position: relative;
+}
+
+.mt-wc-buttons-container {
+	display: flex;
+	gap: var(--mt-wc-space-sm);
+	align-items: center;
+}
+
+/* ===== COMPONENTS ===== */
+.mt-wc-add-to-cart-button,
+.mt-wc-view-cart-button {
+	/* Layout */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--mt-wc-space-sm);
+
+	/* Sizing */
+	min-width: var(--mt-wc-size-touch);
+	min-height: var(--mt-wc-size-touch);
+	padding: var(--mt-wc-space-md) var(--mt-wc-space-lg);
+
+	/* Typography */
+	font-size: var(--mt-wc-font-size-base);
+	line-height: var(--mt-wc-line-height-tight);
+	font-weight: 500;
+	text-decoration: none;
+
+	/* Visual */
+	background: var(--mt-wc-color-primary);
+	color: var(--mt-wc-color-text);
+	border: 1px solid var(--mt-wc-color-primary);
+	border-radius: var(--mt-wc-radius-md);
+	box-shadow: var(--mt-wc-shadow-sm);
+
+	/* Interaction */
+	cursor: pointer;
+	transition: all var(--mt-wc-duration-normal) var(--mt-wc-ease-in-out);
+
+	/* Accessibility */
+	position: relative;
+	overflow: hidden;
+}
+
+/* Hover States */
+.mt-wc-add-to-cart-button:hover,
+.mt-wc-view-cart-button:hover {
+	background: var(--mt-wc-color-primary-hover);
+	border-color: var(--mt-wc-color-primary-hover);
+	transform: translateY(-2px) scale(1.02);
+	box-shadow: var(--mt-wc-shadow-lg);
+}
+
+/* Whimsical hover effects */
+.mt-wc-add-to-cart-button:hover .icon {
+	transform: scale(1.1) rotate(5deg);
+	transition: transform var(--mt-wc-duration-fast) var(--mt-wc-ease-out);
+}
+
+.mt-wc-view-cart-button:hover .icon {
+	transform: scale(1.1) rotate(-5deg);
+	transition: transform var(--mt-wc-duration-fast) var(--mt-wc-ease-out);
+}
+
+/* Focus States */
+.mt-wc-add-to-cart-button:focus-visible,
+.mt-wc-view-cart-button:focus-visible {
+	outline: 2px solid var(--mt-wc-color-primary);
+	outline-offset: 2px;
+}
+
+/* Active States */
+.mt-wc-add-to-cart-button:active,
+.mt-wc-view-cart-button:active {
+	transform: translateY(0);
+	box-shadow: var(--mt-wc-shadow-sm);
+}
+
+/* ===== COMPONENT STATES ===== */
+
+/* Loading State with Iridescent Gradient */
+.mt-wc-add-to-cart-button.is-loading {
+	opacity: 0.9;
+	cursor: not-allowed;
+	pointer-events: none;
+	background: linear-gradient(
+		90deg,
+		var(--mt-wc-color-primary) 0%,
+		#a0c8e0 25%,
+		#ff6b6b 50%,
+		#4ecdc4 75%,
+		var(--mt-wc-color-primary) 100%
+	);
+	background-size: 200% 100%;
+	animation: iridescent-flow var(--mt-wc-duration-slow) infinite linear;
+}
+
+.mt-wc-add-to-cart-button.is-loading .icon {
+	animation: spin 1s linear infinite;
+}
+
+/* Success State */
+.mt-wc-add-to-cart-button.is-success {
+	background: var(--mt-wc-color-success);
+	border-color: var(--mt-wc-color-success);
+	animation: success-bounce 0.6s var(--mt-wc-ease-out);
+}
+
+.mt-wc-add-to-cart-button.is-success .icon {
+	animation: success-pulse 0.3s var(--mt-wc-ease-out);
+}
+
+/* Error State */
+.mt-wc-add-to-cart-button.is-error {
+	background: var(--mt-wc-color-error);
+	border-color: var(--mt-wc-color-error);
+	animation: error-shake var(--mt-wc-duration-normal) var(--mt-wc-ease-out);
+}
+
+/* ===== COMPONENT VARIANTS ===== */
+
+/* Icon Position Variants */
+.mt-wc-add-to-cart-button.icon-position_left {
+	flex-direction: row;
+}
+
+.mt-wc-add-to-cart-button.icon-position_right {
+	flex-direction: row-reverse;
+}
+
+/* Icon-only Variant */
+.mt-wc-add-to-cart-button:not(:has(.button-text)),
+.mt-wc-view-cart-button:not(:has(.button-text)) {
+	padding: var(--mt-wc-space-md);
+	width: var(--mt-wc-size-touch);
+	height: var(--mt-wc-size-touch);
+}
+
+/* Text + Icon Variant */
+.mt-wc-add-to-cart-button:has(.button-text),
+.mt-wc-view-cart-button:has(.button-text) {
+	padding: var(--mt-wc-space-md) var(--mt-wc-space-xl);
+}
+
+/* ===== COMPONENT ELEMENTS ===== */
+
+/* Icon Styles */
+.mt-wc-add-to-cart-button .icon,
+.mt-wc-view-cart-button .icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--mt-wc-size-icon);
+	height: var(--mt-wc-size-icon);
+	font-size: var(--mt-wc-size-icon);
+}
+
+/* Button Text */
+.mt-wc-add-to-cart-button .button-text,
+.mt-wc-view-cart-button .button-text {
+	white-space: nowrap;
+	font-weight: 500;
+}
+
+/* View Cart Button */
+.mt-wc-view-cart-button {
+	display: none;
+	opacity: 0;
+	transform: translateX(10px);
+	transition: all var(--mt-wc-duration-normal) var(--mt-wc-ease-out);
+}
+
+.mt-wc-view-cart-button.show {
+	display: inline-flex;
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes iridescent-flow {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes success-pulse {
+	0% {
+		transform: scale(1);
+	}
+	25% {
+		transform: scale(1.1) rotate(2deg);
+	}
+	50% {
+		transform: scale(1.05) rotate(-1deg);
+	}
+	75% {
+		transform: scale(1.08) rotate(1deg);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes success-bounce {
+	0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(-10px);
+	}
+	60% {
+		transform: translateY(-5px);
+	}
+}
+
+@keyframes error-shake {
+	0%, 100% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-2px);
+	}
+	75% {
+		transform: translateX(2px);
+	}
+}
+
+/* ===== UTILITIES ===== */
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+	.mt-wc-add-to-cart-button,
+	.mt-wc-view-cart-button {
+		transition: none;
+	}
+
+	.mt-wc-add-to-cart-button.is-loading {
+		animation: none;
+		background: var(--mt-wc-color-primary);
+	}
+
+	.mt-wc-add-to-cart-button.is-loading .icon {
+		animation: none;
+	}
+
+	.mt-wc-add-to-cart-button.is-success {
+		animation: none;
+	}
+
+	.mt-wc-add-to-cart-button.is-error {
+		animation: none;
+	}
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+	.mt-wc-add-to-cart-button,
+	.mt-wc-view-cart-button {
+		border-width: 2px;
+	}
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--mt-wc-color-text: #ffffff;
+		--mt-wc-color-background: #1a1a1a;
+		--mt-wc-color-border: #404040;
+	}
+}

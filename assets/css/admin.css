@@ -1,0 +1,215 @@
+/**
+ * MT WC Bricks Add to Cart - Admin Styles
+ *
+ * @package MT_WC_Bricks_Add_To_Cart
+ */
+
+/* Admin notice styles */
+.mt-wc-bricks-add-to-cart-notice {
+	border-left-color: #007cba;
+}
+
+.mt-wc-bricks-add-to-cart-notice .notice-title {
+	font-weight: 600;
+	margin-bottom: 0.5em;
+}
+
+/* Element preview in builder */
+.bricks-element-mt-wc-add-to-cart {
+	min-height: 50px;
+}
+
+.bricks-element-mt-wc-add-to-cart .mt-wc-add-to-cart-wrapper {
+	min-height: inherit;
+}
+
+/* Placeholder styles */
+.bricks-element-mt-wc-add-to-cart .bricks-element-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 20px;
+	background: #f8f9fa;
+	border: 2px dashed #dee2e6;
+	border-radius: 4px;
+	color: #6c757d;
+	font-style: italic;
+}
+
+/* Builder controls styling */
+.bricks-control-group-content .bricks-control-select {
+	margin-bottom: 10px;
+}
+
+.bricks-control-group-content .bricks-control-description {
+	font-size: 0.9em;
+	color: #666;
+	margin-top: 5px;
+}
+
+/* Product selection styling */
+.bricks-control-group-content .bricks-control-select option {
+	padding: 5px;
+}
+
+/* Button controls styling */
+.bricks-control-group-button .bricks-control-checkbox {
+	margin-bottom: 10px;
+}
+
+.bricks-control-group-button .bricks-control-text {
+	margin-bottom: 10px;
+}
+
+.bricks-control-group-button .bricks-control-number {
+	margin-bottom: 10px;
+}
+
+/* Quantity controls styling */
+.bricks-control-group-quantity .bricks-control-checkbox {
+	margin-bottom: 10px;
+}
+
+.bricks-control-group-quantity .bricks-control-number {
+	margin-bottom: 10px;
+}
+
+/* Control group headers */
+.bricks-control-group-content .bricks-control-group-title,
+.bricks-control-group-button .bricks-control-group-title,
+.bricks-control-group-quantity .bricks-control-group-title {
+	font-weight: 600;
+	color: #495057;
+	margin-bottom: 15px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #dee2e6;
+}
+
+/* Required field indicators */
+.bricks-control[data-required="true"] .bricks-control-label::after {
+	content: " *";
+	color: #dc3545;
+}
+
+/* Help text styling */
+.bricks-control-description {
+	font-size: 0.85em;
+	color: #6c757d;
+	margin-top: 5px;
+	line-height: 1.4;
+}
+
+/* Responsive design for admin */
+@media (max-width: 768px) {
+	.bricks-control-group-content,
+	.bricks-control-group-button,
+	.bricks-control-group-quantity {
+		margin-bottom: 20px;
+	}
+
+	.bricks-control-group-title {
+		font-size: 0.9em;
+	}
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+	.bricks-element-mt-wc-add-to-cart .bricks-element-placeholder {
+		background: #2d3748;
+		border-color: #4a5568;
+		color: #a0aec0;
+	}
+
+	.bricks-control-group-title {
+		color: #e2e8f0;
+		border-bottom-color: #4a5568;
+	}
+
+	.bricks-control-description {
+		color: #a0aec0;
+	}
+}
+
+/* Focus styles for accessibility */
+.bricks-control input:focus,
+.bricks-control select:focus,
+.bricks-control textarea:focus {
+	outline: 2px solid #007cba;
+	outline-offset: 2px;
+}
+
+/* Button preview in builder */
+.bricks-element-mt-wc-add-to-cart .add-to-cart {
+	background: #007cba;
+	color: white;
+	padding: 0.75rem 1rem;
+	border-radius: 4px;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.9rem;
+	font-weight: 500;
+}
+
+.bricks-element-mt-wc-add-to-cart .add-to-cart .icon {
+	width: 20px;
+	height: 20px;
+	fill: currentColor;
+}
+
+.bricks-element-mt-wc-add-to-cart .add-to-cart .button-text {
+	white-space: nowrap;
+}
+
+/* View cart link preview */
+.bricks-element-mt-wc-add-to-cart .view-cart {
+	background: #28a745;
+	color: white;
+	padding: 0.75rem 1rem;
+	border-radius: 4px;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.9rem;
+	font-weight: 500;
+	margin-left: 0.5rem;
+}
+
+.bricks-element-mt-wc-add-to-cart .view-cart .bag-icon {
+	width: 20px;
+	height: 20px;
+	fill: currentColor;
+}
+
+/* Quantity input preview */
+.bricks-element-mt-wc-add-to-cart .quantity {
+	display: flex;
+	align-items: center;
+	margin-right: 0.5rem;
+}
+
+.bricks-element-mt-wc-add-to-cart .qty {
+	width: 4rem;
+	padding: 0.5rem;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	text-align: center;
+	font-size: 0.9rem;
+}
+
+/* Product actions container */
+.bricks-element-mt-wc-add-to-cart .product_actions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.bricks-element-mt-wc-add-to-cart .add-to-cart-container {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}

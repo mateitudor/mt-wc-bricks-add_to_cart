@@ -1,0 +1,125 @@
+# Copyright (C) 2024 Matei Tudor
+# This file is distributed under the Unlicense.
+msgid ""
+msgstr ""
+"Project-Id-Version: MT WC Bricks Add to Cart 1.0.0\n"
+"Report-Msgid-Bugs-To: https://mateitudor.com\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: mt-wc-bricks-add_to_cart.php:45
+msgid "%s requires WooCommerce to be installed and active."
+msgstr ""
+
+#: mt-wc-bricks-add_to_cart.php:55
+msgid "%s requires Bricks Builder theme to be installed and active."
+msgstr ""
+
+#: mt-wc-bricks-add_to_cart.php:65
+msgid "%s requires Bricks Builder theme version 1.0 or higher."
+msgstr ""
+
+#: mt-wc-bricks-add_to_cart.php:120
+msgid "MT WC Bricks Add to Cart requires WooCommerce to be installed and active."
+msgstr ""
+
+#: mt-wc-bricks-add_to_cart.php:121
+msgid "Plugin Activation Error"
+msgstr ""
+
+#: mt-wc-bricks-add_to_cart.php:130
+msgid "MT WC Bricks Add to Cart requires Bricks Builder theme to be installed and active."
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:35
+msgid "Add to Cart Button"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:40
+msgid "Content"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:45
+msgid "Button"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:50
+msgid "Quantity"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:58
+msgid "Product"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:66
+msgid "Select which product to add to cart"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:75
+msgid "Show Quantity Input"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:85
+msgid "Default Quantity"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:95
+msgid "Button Text"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:100
+msgid "Leave empty for icon-only button"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:108
+msgid "Show Icon"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:115
+msgid "Icon Position"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:118
+msgid "Left"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:119
+msgid "Right"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:130
+msgid "Success Timeout (ms)"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:135
+msgid "How long to show success state"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:143
+msgid "Show View Cart Link"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:150
+msgid "View Cart Text"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:250
+msgid "No purchasable product found."
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:280
+msgid "Current Product"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:320
+msgid "View Cart"
+msgstr ""
+
+#: includes/class-element-add-to-cart.php:340
+msgid "Add to cart"
+msgstr ""
