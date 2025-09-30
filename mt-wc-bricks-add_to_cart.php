@@ -231,14 +231,8 @@ function mt_wc_bricks_add_to_cart_ajax_handler() {
 			);
 		}
 
-		// Clear any existing notices for this product to avoid duplicates
-		$existing_notices = wc_get_notices('success');
-		foreach ($existing_notices as $key => $notice) {
-			if (strpos($notice['notice'], $product_name) !== false) {
-				unset($existing_notices[$key]);
-			}
-		}
-		wc_set_notices(['success' => $existing_notices]);
+		// Clear all existing success notices to prevent duplicates in query loops
+		wc_clear_notices();
 
 		// Add the new notice
 		wc_add_notice($notice_message, 'success');

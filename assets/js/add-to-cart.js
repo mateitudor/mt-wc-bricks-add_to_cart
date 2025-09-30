@@ -104,34 +104,64 @@ const utils = {
 	displayNotices: (noticesHtml) => {
 		if (!noticesHtml) return;
 
-		// Try to find Bricks WooCommerce notice element first
-		const bricksNoticeWrapper = document.querySelector('.brxe-woocommerce-notice');
-		if (bricksNoticeWrapper) {
-			bricksNoticeWrapper.innerHTML = noticesHtml;
+		// Create a temporary container to parse the new notices
+		const tempContainer = document.createElement('div');
+		tempContainer.innerHTML = noticesHtml;
+		const newNotices = Array.from(tempContainer.children);
+
+		// Try to find existing WooCommerce notice areas first
+		const existingNoticeGroup = document.querySelector('.woocommerce-NoticeGroup-checkout, .woocommerce-notices-wrapper');
+		if (existingNoticeGroup) {
+			// Add new notices to existing WooCommerce notice area, avoiding duplicates
+			newNotices.forEach(newNotice => {
+				const noticeText = newNotice.textContent.trim();
+
+				// Check if this notice already exists
+				const existingNotices = existingNoticeGroup.querySelectorAll('.woocommerce-message');
+				let isDuplicate = false;
+
+				existingNotices.forEach(existingNotice => {
+					if (existingNotice.textContent.trim() === noticeText) {
+						isDuplicate = true;
+					}
+				});
+
+				// Only add if it's not a duplicate
+				if (!isDuplicate) {
+					existingNoticeGroup.appendChild(newNotice);
+				}
+			});
 			return;
 		}
 
-		// Try to find existing WooCommerce notice areas
-		const existingNotices = document.querySelector('.woocommerce-NoticeGroup-checkout, .woocommerce-notices-wrapper, .woocommerce-message');
-		if (existingNotices) {
-			existingNotices.innerHTML = noticesHtml;
-			return;
-		}
+		// Create a new notice container using WooCommerce's default structure
+		const noticeGroup = document.createElement('div');
+		noticeGroup.className = 'woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout';
 
-		// Create new notice container if none exists
-		const noticeContainer = document.createElement('div');
-		noticeContainer.className = 'woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout';
-		noticeContainer.innerHTML = noticesHtml;
+		// Add new notices, avoiding duplicates
+		newNotices.forEach(newNotice => {
+			noticeGroup.appendChild(newNotice);
+		});
 
-		// Try to find a good place to insert the notice
+		// Try to find the best place to insert the notice group
 		const targetElement = document.querySelector('form.woocommerce-checkout, .woocommerce, .bricks-content, body');
 		if (targetElement) {
-			targetElement.insertBefore(noticeContainer, targetElement.firstChild);
+			targetElement.insertBefore(noticeGroup, targetElement.firstChild);
 		}
 	}
 };
 
 // Button state management
+const setIcon = (button, iconString) => {
+	if (!iconString) return;
+	const iconElement = button.querySelector('.icon');
+	if (!iconElement) return;
+	iconElement.className = 'icon';
+	const parts = iconString.split(' ');
+	const iconClassOnly = parts.slice(1).join(' ');
+	if (iconClassOnly) iconElement.classList.add(...iconClassOnly.split(' '));
+};
+
 const buttonState = {
 	// Set button state with proper transitions
 	setState: (button, state, iconClass = null) => {
@@ -144,30 +174,7 @@ const buttonState = {
 		}
 
 		// Update icon if provided
-		if (iconClass) {
-			const iconElement = button.querySelector('.icon');
-			if (iconElement) {
-				// Debug icon switching
-				console.log('Switching icon:', {
-					state,
-					iconClass,
-					beforeHTML: iconElement.innerHTML,
-					newHTML: utils.createIconHTML(iconClass)
-				});
-
-				// Remove all existing icon classes first
-				iconElement.className = 'icon';
-
-				// Parse the icon class from the icon string
-				const parts = iconClass.split(' ');
-				const iconClassOnly = parts.slice(1).join(' ');
-
-				// Add the new icon class
-				if (iconClassOnly) {
-					iconElement.classList.add(...iconClassOnly.split(' '));
-				}
-			}
-		}
+		if (iconClass) setIcon(button, iconClass);
 
 		// Update accessibility attributes
 		const ariaLabels = {
@@ -183,6 +190,9 @@ const buttonState = {
 
 	// Show view cart button with animation
 	showViewCart: (button) => {
+		// Respect toggle
+		const allow = button?.dataset?.showViewCart === '1';
+		if (!allow) return;
 		const viewCartButton = button.closest('.mt-wc-buttons-container')?.querySelector('.mt-wc-view-cart-button');
 		if (viewCartButton) {
 			viewCartButton.classList.add('show');
@@ -409,7 +419,7 @@ if (document.readyState === 'loading') {
 // Force reinitialize function for buttons that might not be working
 const forceReinit = () => {
 	const allButtons = document.querySelectorAll('.mt-wc-add-to-cart-button');
-	
+
 	if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
 		console.log('MT WC Add to Cart: Force reinitializing', allButtons.length, 'buttons');
 		console.log('Force reinit - All buttons:', allButtons);

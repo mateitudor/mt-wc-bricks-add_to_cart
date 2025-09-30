@@ -141,8 +141,6 @@
 
 /* Button preview in builder */
 .bricks-element-mt-wc-add-to-cart .add-to-cart {
-	background: #007cba;
-	color: white;
 	padding: 0.75rem 1rem;
 	border-radius: 4px;
 	text-decoration: none;
@@ -165,8 +163,6 @@
 
 /* View cart link preview */
 .bricks-element-mt-wc-add-to-cart .view-cart {
-	background: #28a745;
-	color: white;
 	padding: 0.75rem 1rem;
 	border-radius: 4px;
 	text-decoration: none;

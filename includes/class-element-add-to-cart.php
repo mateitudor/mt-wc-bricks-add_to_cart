@@ -32,7 +32,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 	 * Set element controls
 	 */
 	public function set_controls() {
-		// Product selection
+		// Content tab - Product selection
 		$this->controls['product'] = [
 			'tab' => 'content',
 			'label' => esc_html__('Product', 'mt-wc-bricks-add_to_cart'),
@@ -42,16 +42,16 @@ class Element_Add_To_Cart extends \Bricks\Element {
 			'searchable' => true,
 		];
 
-		// Button text
+		// Content tab - Button text
 		$this->controls['button_text'] = [
 			'tab' => 'content',
 			'label' => esc_html__('Button Text', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'text',
 			'default' => '',
-			'placeholder' => esc_html__('Leave empty to use product default', 'mt-wc-bricks-add_to_cart'),
+			'placeholder' => esc_html__('Leave empty for icon-only button', 'mt-wc-bricks-add_to_cart'),
 		];
 
-		// Icon position
+		// Content tab - Icon position
 		$this->controls['icon_position'] = [
 			'tab' => 'content',
 			'label' => esc_html__('Icon Position', 'mt-wc-bricks-add_to_cart'),
@@ -63,10 +63,16 @@ class Element_Add_To_Cart extends \Bricks\Element {
 			'default' => 'left',
 		];
 
-		// Icons
+		// Content tab - Nominal State
+		$this->controls['nominal_state_heading'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Nominal State', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'divider',
+		];
+
 		$this->controls['default_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Default Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -74,29 +80,72 @@ class Element_Add_To_Cart extends \Bricks\Element {
 			],
 		];
 
-		$this->controls['loading_icon'] = [
+		$this->controls['default_icon_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Loading Icon', 'mt-wc-bricks-add_to_cart'),
-			'type' => 'icon',
-			'default' => [
-				'library' => 'fontawesome',
-				'icon' => 'fas fa-spinner'
-			],
+			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
 		];
 
-		$this->controls['success_icon'] = [
+		$this->controls['button_background'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Success Icon', 'mt-wc-bricks-add_to_cart'),
-			'type' => 'icon',
-			'default' => [
-				'library' => 'fontawesome',
-				'icon' => 'fas fa-check'
-			],
+			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		$this->controls['button_border_color'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		$this->controls['button_text_color'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Text Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		// Content tab - Hover State
+		$this->controls['hover_state_heading'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Hover State', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'divider',
+		];
+
+		$this->controls['button_background_hover'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		$this->controls['button_border_color_hover'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		$this->controls['button_text_color_hover'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Text Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		// Content tab - Error State
+		$this->controls['error_state_heading'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Error State', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'divider',
 		];
 
 		$this->controls['error_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Error Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -104,7 +153,82 @@ class Element_Add_To_Cart extends \Bricks\Element {
 			],
 		];
 
-		// View cart button
+		$this->controls['error_icon_color'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		$this->controls['error_background'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		// Content tab - Success State
+		$this->controls['success_state_heading'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Success State', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'divider',
+		];
+
+		$this->controls['success_icon'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'icon',
+			'default' => [
+				'library' => 'fontawesome',
+				'icon' => 'fas fa-check'
+			],
+		];
+
+		$this->controls['success_icon_color'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		$this->controls['success_background'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		// Content tab - Loading State
+		$this->controls['loading_state_heading'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Loading State', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'divider',
+		];
+
+		$this->controls['loading_icon'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'icon',
+			'default' => [
+				'library' => 'fontawesome',
+				'icon' => 'fas fa-spinner'
+			],
+		];
+
+		$this->controls['loading_icon_color'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+		];
+
+		// Content tab - View Cart Button
+		$this->controls['view_cart_heading'] = [
+			'tab' => 'content',
+			'label' => esc_html__('View Cart Button', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'divider',
+		];
+
 		$this->controls['show_view_cart'] = [
 			'tab' => 'content',
 			'label' => esc_html__('Show View Cart Button', 'mt-wc-bricks-add_to_cart'),
@@ -114,7 +238,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('View Cart Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -123,43 +247,72 @@ class Element_Add_To_Cart extends \Bricks\Element {
 			'required' => ['show_view_cart', '=', true],
 		];
 
+		$this->controls['view_cart_icon_color'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+			'required' => ['show_view_cart', '=', true],
+		];
+
+		$this->controls['view_cart_background'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+			'required' => ['show_view_cart', '=', true],
+		];
+
+		$this->controls['view_cart_border_color'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'inline' => true,
+			'required' => ['show_view_cart', '=', true],
+		];
+
 		$this->controls['view_cart_text'] = [
 			'tab' => 'content',
-			'label' => esc_html__('View Cart Text', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Text', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'text',
 			'default' => '',
 			'placeholder' => esc_html__('View Cart', 'mt-wc-bricks-add_to_cart'),
 			'required' => ['show_view_cart', '=', true],
 		];
 
-		// Colors
-		$this->controls['button_color'] = [
-			'tab' => 'style',
-			'label' => esc_html__('Button Color', 'mt-wc-bricks-add_to_cart'),
-			'type' => 'color',
-			'default' => '#007cba',
+		// Content tab - View Cart Hover
+		$this->controls['view_cart_hover_heading'] = [
+			'tab' => 'content',
+			'label' => esc_html__('View Cart Hover', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'divider',
 		];
 
-		$this->controls['button_hover_color'] = [
-			'tab' => 'style',
-			'label' => esc_html__('Button Hover Color', 'mt-wc-bricks-add_to_cart'),
+		$this->controls['view_cart_icon_color_hover'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
-			'default' => '#005a87',
+			'inline' => true,
+			'required' => ['show_view_cart', '=', true],
 		];
 
-		$this->controls['success_color'] = [
-			'tab' => 'style',
-			'label' => esc_html__('Success Color', 'mt-wc-bricks-add_to_cart'),
+		$this->controls['view_cart_background_hover'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
-			'default' => '#00a32a',
+			'inline' => true,
+			'required' => ['show_view_cart', '=', true],
 		];
 
-		$this->controls['error_color'] = [
-			'tab' => 'style',
-			'label' => esc_html__('Error Color', 'mt-wc-bricks-add_to_cart'),
+		$this->controls['view_cart_border_color_hover'] = [
+			'tab' => 'content',
+			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
-			'default' => '#d63638',
+			'inline' => true,
+			'required' => ['show_view_cart', '=', true],
 		];
+
+		// Enable Bricks built-in controls if needed
+		$this->set_controls_before();
 	}
 
 	/**
@@ -196,6 +349,53 @@ class Element_Add_To_Cart extends \Bricks\Element {
 		$view_cart_icon = $this->getIconString($settings, 'view_cart_icon');
 		$view_cart_text = $this->get_setting($settings, 'view_cart_text', '');
 
+		// Inline CSS variables
+		$button_bg = $this->get_setting($settings, 'button_background', '');
+		$button_bg_hover = $this->get_setting($settings, 'button_background_hover', '');
+		$button_text_color = $this->get_setting($settings, 'button_text_color', '');
+		$button_text_color_hover = $this->get_setting($settings, 'button_text_color_hover', '');
+		$button_border_color = $this->get_setting($settings, 'button_border_color', '');
+		$button_border_color_hover = $this->get_setting($settings, 'button_border_color_hover', '');
+		$default_icon_color = $this->get_setting($settings, 'default_icon_color', '');
+		$loading_icon_color = $this->get_setting($settings, 'loading_icon_color', '');
+		$success_icon_color = $this->get_setting($settings, 'success_icon_color', '');
+		$error_icon_color = $this->get_setting($settings, 'error_icon_color', '');
+		$success_bg = $this->get_setting($settings, 'success_background', '');
+		$error_bg = $this->get_setting($settings, 'error_background', '');
+
+		// View cart colors
+		$view_cart_icon_color = $this->get_setting($settings, 'view_cart_icon_color', '');
+		$view_cart_background = $this->get_setting($settings, 'view_cart_background', '');
+		$view_cart_border_color = $this->get_setting($settings, 'view_cart_border_color', '');
+		$view_cart_icon_color_hover = $this->get_setting($settings, 'view_cart_icon_color_hover', '');
+		$view_cart_background_hover = $this->get_setting($settings, 'view_cart_background_hover', '');
+		$view_cart_border_color_hover = $this->get_setting($settings, 'view_cart_border_color_hover', '');
+
+		$style_vars = [];
+		if (!empty($button_bg)) $style_vars[] = '--mt-wc-button-bg:' . $this->sanitize_color_value($button_bg);
+		if (!empty($button_bg_hover)) $style_vars[] = '--mt-wc-button-bg-hover:' . $this->sanitize_color_value($button_bg_hover);
+		if (!empty($button_text_color)) $style_vars[] = '--mt-wc-text-color:' . $this->sanitize_color_value($button_text_color);
+		if (!empty($button_text_color_hover)) $style_vars[] = '--mt-wc-text-color-hover:' . $this->sanitize_color_value($button_text_color_hover);
+		if (!empty($button_border_color)) $style_vars[] = '--mt-wc-border-color:' . $this->sanitize_color_value($button_border_color);
+		if (!empty($button_border_color_hover)) $style_vars[] = '--mt-wc-border-color-hover:' . $this->sanitize_color_value($button_border_color_hover);
+		if (!empty($default_icon_color)) $style_vars[] = '--mt-wc-icon-color-default:' . $this->sanitize_color_value($default_icon_color);
+		if (!empty($default_icon_color)) $style_vars[] = '--mt-wc-icon-color:' . $this->sanitize_color_value($default_icon_color);
+		if (!empty($loading_icon_color)) $style_vars[] = '--mt-wc-icon-color-loading:' . $this->sanitize_color_value($loading_icon_color);
+		if (!empty($success_icon_color)) $style_vars[] = '--mt-wc-icon-color-success:' . $this->sanitize_color_value($success_icon_color);
+		if (!empty($error_icon_color)) $style_vars[] = '--mt-wc-icon-color-error:' . $this->sanitize_color_value($error_icon_color);
+		if (!empty($success_bg)) $style_vars[] = '--mt-wc-button-bg-success:' . $this->sanitize_color_value($success_bg);
+		if (!empty($error_bg)) $style_vars[] = '--mt-wc-button-bg-error:' . $this->sanitize_color_value($error_bg);
+
+		// View cart colors
+		if (!empty($view_cart_icon_color)) $style_vars[] = '--mt-wc-view-cart-icon-color:' . $this->sanitize_color_value($view_cart_icon_color);
+		if (!empty($view_cart_background)) $style_vars[] = '--mt-wc-view-cart-bg:' . $this->sanitize_color_value($view_cart_background);
+		if (!empty($view_cart_border_color)) $style_vars[] = '--mt-wc-view-cart-border-color:' . $this->sanitize_color_value($view_cart_border_color);
+		if (!empty($view_cart_icon_color_hover)) $style_vars[] = '--mt-wc-view-cart-icon-color-hover:' . $this->sanitize_color_value($view_cart_icon_color_hover);
+		if (!empty($view_cart_background_hover)) $style_vars[] = '--mt-wc-view-cart-bg-hover:' . $this->sanitize_color_value($view_cart_background_hover);
+		if (!empty($view_cart_border_color_hover)) $style_vars[] = '--mt-wc-view-cart-border-color-hover:' . $this->sanitize_color_value($view_cart_border_color_hover);
+
+		$style_attr = !empty($style_vars) ? ' style="' . esc_attr(implode(';', $style_vars)) . '"' : '';
+
 		// Get fallback text
 		$fallback_text = $product->single_add_to_cart_text() ?: __('Add to cart', 'woocommerce');
 		$display_text = $button_text ?: $fallback_text;
@@ -226,9 +426,11 @@ class Element_Add_To_Cart extends \Bricks\Element {
 						data-loading-icon="<?php echo esc_attr($loading_icon); ?>"
 						data-success-icon="<?php echo esc_attr($success_icon); ?>"
 						data-error-icon="<?php echo esc_attr($error_icon); ?>"
+						data-show-view-cart="<?php echo esc_attr($show_view_cart ? '1' : '0'); ?>"
 						aria-label="<?php echo esc_attr($display_text); ?>"
+					<?php echo $style_attr; ?>
 					>
-						<?php echo self::render_icon($default_icon_arr, ['icon']); ?>
+						<?php echo $this->render_icon($default_icon_arr, ['icon']); ?>
 
 						<?php if ($button_text) : ?>
 							<span class="button-text"><?php echo esc_html($button_text); ?></span>
@@ -241,7 +443,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 							class="mt-wc-view-cart-button button"
 							aria-label="<?php echo esc_attr($view_cart_text ?: __('View Cart', 'mt-wc-bricks-add_to_cart')); ?>"
 						>
-							<?php echo self::render_icon($view_cart_icon_arr, ['icon']); ?>
+							<?php echo $this->render_icon($view_cart_icon_arr, ['icon']); ?>
 
 							<?php if ($view_cart_text) : ?>
 								<span class="button-text"><?php echo esc_html($view_cart_text); ?></span>
@@ -377,39 +579,6 @@ class Element_Add_To_Cart extends \Bricks\Element {
 		return trim(($icon['library'] ?? 'fontawesome') . ' ' . ($icon['icon'] ?? 'fas fa-shopping-cart'));
 	}
 
-	/**
-	 * Render icon using Bricks icon system
-	 * Note: Method name avoids clashing with Bricks\Element::render_icon (static)
-	 */
-	private function renderElementIcon(string $icon_value) {
-		// Parse icon value
-		$parts = explode(' ', $icon_value, 2);
-		$library = $parts[0] ?? 'fontawesome';
-		$icon = $parts[1] ?? 'fas fa-shopping-cart';
-
-		// Use Bricks icon system
-		if (class_exists('\Bricks\Helpers')) {
-			$icon_data = [
-				'library' => $library,
-				'name' => $icon
-			];
-
-			$icon_html = \Bricks\Helpers::get_icon_html($icon_data, [
-				'class' => 'icon',
-				'aria-hidden' => 'true'
-			]);
-
-			if ($icon_html) {
-				return $icon_html;
-			}
-		}
-
-		// Fallback to simple icon
-		return sprintf(
-			'<i class="icon %s" aria-hidden="true"></i>',
-			esc_attr($icon)
-		);
-	}
 
 	/**
 	 * Get products for select control
@@ -429,5 +598,49 @@ class Element_Add_To_Cart extends \Bricks\Element {
 		}
 
 		return $options;
+	}
+
+	// Sanitize color value for safe inline CSS variables
+	private function sanitize_color_value($value): string {
+		if (is_array($value)) {
+			return $this->extract_color_from_bricks_array($value);
+		}
+		return $this->sanitize_color_string((string) $value);
+	}
+
+	// Extract hex/rgba value from Bricks color array structure
+	private function extract_color_from_bricks_array(array $value): string {
+		$rgba = $value['rgba'] ?? '';
+		if (is_string($rgba) && $rgba !== '') {
+			return $this->sanitize_color_string($rgba);
+		}
+		$has_full_alpha = isset($value['alpha']) ? (float) $value['alpha'] >= 1 : true;
+		$hex = $has_full_alpha && !empty($value['hex']) ? $value['hex'] : '';
+		if (is_string($hex) && $hex !== '') {
+			return $this->sanitize_color_string($hex);
+		}
+		$color = $value['color'] ?? '';
+		if (is_string($color) && $color !== '') {
+			return $this->sanitize_color_string($color);
+		}
+		return '';
+	}
+
+	// Validate and return a safe CSS color string
+	private function sanitize_color_string(string $value): string {
+		$value = trim($value);
+		if ($value === '') {
+			return '';
+		}
+		if (preg_match('/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $value)) {
+			return $value;
+		}
+		if (preg_match('/^(rgb|rgba|hsl|hsla)\(/i', $value)) {
+			return $value;
+		}
+		if (preg_match('/^[a-zA-Z]+$/', $value)) {
+			return $value;
+		}
+		return '';
 	}
 }
