@@ -10,10 +10,6 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 	exit;
 }
 
-// Clean up any plugin-specific data if needed
-// Note: This plugin doesn't store any data in the database,
-// so no cleanup is necessary
-
 // Clear any cached data
 if (function_exists('wp_cache_flush')) {
 	wp_cache_flush();
