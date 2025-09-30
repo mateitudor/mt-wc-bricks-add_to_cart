@@ -109,7 +109,46 @@ const utils = {
 		tempContainer.innerHTML = noticesHtml;
 		const newNotices = Array.from(tempContainer.children);
 
-		// Try to find existing WooCommerce notice areas first
+		// Priority 1: Try to find Bricks WooCommerce notice element first (for consistent styling)
+		let bricksNoticeWrapper = document.querySelector('.brxe-woocommerce-notice, .woocommerce-notices-wrapper');
+
+		// If no Bricks notice wrapper exists, create one to ensure consistent styling
+		if (!bricksNoticeWrapper) {
+			bricksNoticeWrapper = document.createElement('div');
+			bricksNoticeWrapper.className = 'brxe-woocommerce-notice woocommerce-notices-wrapper';
+			bricksNoticeWrapper.setAttribute('data-brx-element', 'woocommerce-notice');
+
+			// Try to find the best place to insert the Bricks notice wrapper
+			const targetElement = document.querySelector('.bricks-content, .woocommerce, body');
+			if (targetElement) {
+				targetElement.insertBefore(bricksNoticeWrapper, targetElement.firstChild);
+			}
+		}
+
+		if (bricksNoticeWrapper) {
+			// Add new notices to Bricks notice area, avoiding duplicates
+			newNotices.forEach(newNotice => {
+				const noticeText = newNotice.textContent.trim();
+
+				// Check if this notice already exists
+				const existingNotices = bricksNoticeWrapper.querySelectorAll('.woocommerce-message');
+				let isDuplicate = false;
+
+				existingNotices.forEach(existingNotice => {
+					if (existingNotice.textContent.trim() === noticeText) {
+						isDuplicate = true;
+					}
+				});
+
+				// Only add if it's not a duplicate
+				if (!isDuplicate) {
+					bricksNoticeWrapper.appendChild(newNotice);
+				}
+			});
+			return;
+		}
+
+		// Priority 2: Try to find existing WooCommerce notice areas
 		const existingNoticeGroup = document.querySelector('.woocommerce-NoticeGroup-checkout, .woocommerce-notices-wrapper');
 		if (existingNoticeGroup) {
 			// Add new notices to existing WooCommerce notice area, avoiding duplicates
@@ -134,7 +173,7 @@ const utils = {
 			return;
 		}
 
-		// Create a new notice container using WooCommerce's default structure
+		// Priority 3: Create a new notice container using WooCommerce's default structure
 		const noticeGroup = document.createElement('div');
 		noticeGroup.className = 'woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout';
 
