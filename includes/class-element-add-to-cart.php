@@ -1,235 +1,199 @@
 <?php
-// Bricks Add to Cart Element
-// @package MT_WC_Bricks_Add_To_Cart
-
 declare(strict_types=1);
 
-// Prevent direct access
+namespace MT\WC\Bricks\AddToCart;
+
+use Bricks\Elements;
+use Bricks\Helpers;
+
 if (!defined('ABSPATH')) {
 	exit;
 }
 
-// Element_Add_To_Cart class
-class MT_WC_Bricks_Element_Add_To_Cart extends \Bricks\Element {
-	// Element category
+/**
+ * Add to Cart Element for Bricks Builder
+ */
+class Element_Add_To_Cart extends \Bricks\Element {
+
+	// Element properties
 	public $category = 'woocommerce';
-
-	// Element name
 	public $name = 'mt-wc-add-to-cart';
+	public $icon = 'fas fa-shopping-bag';
+	public $scripts = ['mt-wc-bricks-add-to-cart'];
 
-	// Element icon
-	public $icon = 'fas fa-shopping-cart';
-
-	// CSS selector
-	public $css_selector = '.mt-wc-add-to-cart-wrapper';
-
-	// Get element label
-	public function get_label(): string {
+	/**
+	 * Get element label
+	 */
+	public function get_label() {
 		return esc_html__('Add to Cart Button', 'mt-wc-bricks-add_to_cart');
 	}
 
-	// Set control groups
-	public function set_control_groups(): void {
-		$this->control_groups['content'] = [
-			'title' => esc_html__('Content', 'mt-wc-bricks-add_to_cart'),
-			'tab'   => 'content',
-		];
-
-		$this->control_groups['button'] = [
-			'title' => esc_html__('Button', 'mt-wc-bricks-add_to_cart'),
-			'tab'   => 'content',
-		];
-
-		$this->control_groups['colors'] = [
-			'title' => esc_html__('Colors', 'mt-wc-bricks-add_to_cart'),
-			'tab'   => 'style',
-		];
-	}
-
-	// Set controls
-	public function set_controls(): void {
+	/**
+	 * Set element controls
+	 */
+	public function set_controls() {
 		// Product selection
 		$this->controls['product'] = [
-			'tab'         => 'content',
-			'group'       => 'content',
-			'label'       => esc_html__('Product', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'select',
-			'options'     => $this->get_product_options(),
-			'default'     => 'current',
+			'tab' => 'content',
+			'label' => esc_html__('Product', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'select',
+			'options' => $this->get_products_options(),
+			'default' => 'current',
+			'searchable' => true,
 		];
 
-		// Button text (optional)
+		// Button text
 		$this->controls['button_text'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('Button Text (Optional)', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'text',
-			'default'     => '',
-			'placeholder' => esc_html__('Leave empty for icon-only button', 'mt-wc-bricks-add_to_cart'),
+			'tab' => 'content',
+			'label' => esc_html__('Button Text', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'text',
+			'default' => '',
+			'placeholder' => esc_html__('Leave empty to use product default', 'mt-wc-bricks-add_to_cart'),
 		];
 
-		// Icon position (only when text is present)
+		// Icon position
 		$this->controls['icon_position'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('Icon Position', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'select',
-			'options'     => [
-				'left'  => esc_html__('Left', 'mt-wc-bricks-add_to_cart'),
+			'tab' => 'content',
+			'label' => esc_html__('Icon Position', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'select',
+			'options' => [
+				'left' => esc_html__('Left', 'mt-wc-bricks-add_to_cart'),
 				'right' => esc_html__('Right', 'mt-wc-bricks-add_to_cart'),
 			],
-			'default'     => 'left',
+			'default' => 'left',
 		];
 
-		// Default icon
+		// Icons
 		$this->controls['default_icon'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('Default Icon', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'icon',
-			'default'     => 'fas fa-shopping-cart',
+			'tab' => 'content',
+			'label' => esc_html__('Default Icon', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'icon',
+			'default' => [
+				'library' => 'fontawesome',
+				'icon' => 'fas fa-shopping-cart'
+			],
 		];
 
-		// Loading icon
 		$this->controls['loading_icon'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('Loading Icon', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'icon',
-			'default'     => 'fas fa-spinner',
+			'tab' => 'content',
+			'label' => esc_html__('Loading Icon', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'icon',
+			'default' => [
+				'library' => 'fontawesome',
+				'icon' => 'fas fa-spinner'
+			],
 		];
 
-		// Success icon
 		$this->controls['success_icon'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('Success Icon', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'icon',
-			'default'     => 'fas fa-check',
+			'tab' => 'content',
+			'label' => esc_html__('Success Icon', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'icon',
+			'default' => [
+				'library' => 'fontawesome',
+				'icon' => 'fas fa-check'
+			],
 		];
 
-		// Error icon
 		$this->controls['error_icon'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('Error Icon', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'icon',
-			'default'     => 'fas fa-times',
+			'tab' => 'content',
+			'label' => esc_html__('Error Icon', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'icon',
+			'default' => [
+				'library' => 'fontawesome',
+				'icon' => 'fas fa-times'
+			],
 		];
 
-		// Show view cart button
+		// View cart button
 		$this->controls['show_view_cart'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('Show View Cart Button', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'checkbox',
-			'default'     => false,
+			'tab' => 'content',
+			'label' => esc_html__('Show View Cart Button', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'checkbox',
+			'default' => false,
 		];
 
-		// View cart icon
 		$this->controls['view_cart_icon'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('View Cart Icon', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'icon',
-			'default'     => 'fas fa-shopping-bag',
-			'required'    => ['show_view_cart', '=', true],
+			'tab' => 'content',
+			'label' => esc_html__('View Cart Icon', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'icon',
+			'default' => [
+				'library' => 'fontawesome',
+				'icon' => 'fas fa-shopping-bag'
+			],
+			'required' => ['show_view_cart', '=', true],
 		];
 
-		// View cart text
 		$this->controls['view_cart_text'] = [
-			'tab'         => 'content',
-			'group'       => 'button',
-			'label'       => esc_html__('View Cart Text', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'text',
-			'default'     => '',
-			'placeholder' => esc_html__('Leave empty for icon-only', 'mt-wc-bricks-add_to_cart'),
-			'required'    => ['show_view_cart', '=', true],
+			'tab' => 'content',
+			'label' => esc_html__('View Cart Text', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'text',
+			'default' => '',
+			'placeholder' => esc_html__('View Cart', 'mt-wc-bricks-add_to_cart'),
+			'required' => ['show_view_cart', '=', true],
 		];
 
-		// Color controls
+		// Colors
 		$this->controls['button_color'] = [
-			'tab'         => 'style',
-			'group'       => 'colors',
-			'label'       => esc_html__('Button Color', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'color',
-			'default'     => '#007cba',
-			'css'         => [
-				[
-					'selector' => '.mt-wc-add-to-cart-button',
-					'property' => '--mt-wc-color-primary'
-				]
-			]
+			'tab' => 'style',
+			'label' => esc_html__('Button Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'default' => '#007cba',
 		];
 
 		$this->controls['button_hover_color'] = [
-			'tab'         => 'style',
-			'group'       => 'colors',
-			'label'       => esc_html__('Button Hover Color', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'color',
-			'default'     => '#005a87',
-			'css'         => [
-				[
-					'selector' => '.mt-wc-add-to-cart-button',
-					'property' => '--mt-wc-color-primary-hover'
-				]
-			]
+			'tab' => 'style',
+			'label' => esc_html__('Button Hover Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'default' => '#005a87',
 		];
 
 		$this->controls['success_color'] = [
-			'tab'         => 'style',
-			'group'       => 'colors',
-			'label'       => esc_html__('Success Color', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'color',
-			'default'     => '#00a32a',
-			'css'         => [
-				[
-					'selector' => '.mt-wc-add-to-cart-button',
-					'property' => '--mt-wc-color-success'
-				]
-			]
+			'tab' => 'style',
+			'label' => esc_html__('Success Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'default' => '#00a32a',
 		];
 
 		$this->controls['error_color'] = [
-			'tab'         => 'style',
-			'group'       => 'colors',
-			'label'       => esc_html__('Error Color', 'mt-wc-bricks-add_to_cart'),
-			'type'        => 'color',
-			'default'     => '#d63638',
-			'css'         => [
-				[
-					'selector' => '.mt-wc-add-to-cart-button',
-					'property' => '--mt-wc-color-error'
-				]
-			]
+			'tab' => 'style',
+			'label' => esc_html__('Error Color', 'mt-wc-bricks-add_to_cart'),
+			'type' => 'color',
+			'default' => '#d63638',
 		];
 	}
 
-	// Render the element
-	public function render(): void {
+	/**
+	 * Render the element
+	 */
+	public function render() {
 		$settings = $this->settings;
 		$product = $this->get_product($settings);
 
 		// Validate product
 		if (!$product || !is_a($product, 'WC_Product') || !$product->is_purchasable()) {
-			$this->render_element_placeholder([
-				'title' => esc_html__('No valid product found.', 'mt-wc-bricks-add_to_cart'),
-			]);
+			$this->set_attribute('_root', 'class', 'mt-wc-add-to-cart-wrapper');
+			echo '<div class="mt-wc-add-to-cart-wrapper">';
+			echo '<p>' . esc_html__('No valid product found.', 'mt-wc-bricks-add_to_cart') . '</p>';
+			echo '</div>';
 			return;
 		}
-
-		$this->set_attribute('_root', 'class', 'mt-wc-add-to-cart-wrapper');
-		$this->set_attribute('_root', 'data-product-id', $product->get_id());
 
 		// Get settings
 		$button_text = $this->get_setting($settings, 'button_text', '');
 		$icon_position = $this->get_setting($settings, 'icon_position', 'left');
-		$default_icon = $this->get_icon_value($settings, 'default_icon', 'fontawesome fas fa-shopping-cart');
-		$loading_icon = $this->get_icon_value($settings, 'loading_icon', 'fontawesome fas fa-spinner');
-		$success_icon = $this->get_icon_value($settings, 'success_icon', 'fontawesome fas fa-check');
-		$error_icon = $this->get_icon_value($settings, 'error_icon', 'fontawesome fas fa-times');
+		// Prepare icons in both formats: array (for Bricks renderer) and string (for JS data attributes)
+		$default_icon_arr = $this->getIconArray($settings, 'default_icon');
+		$loading_icon_arr = $this->getIconArray($settings, 'loading_icon');
+		$success_icon_arr = $this->getIconArray($settings, 'success_icon');
+		$error_icon_arr = $this->getIconArray($settings, 'error_icon');
+
+		$default_icon = $this->getIconString($settings, 'default_icon');
+		$loading_icon = $this->getIconString($settings, 'loading_icon');
+		$success_icon = $this->getIconString($settings, 'success_icon');
+		$error_icon = $this->getIconString($settings, 'error_icon');
 		$show_view_cart = $this->get_setting($settings, 'show_view_cart', false);
-		$view_cart_icon = $this->get_icon_value($settings, 'view_cart_icon', 'fontawesome fas fa-shopping-bag');
+		$view_cart_icon_arr = $this->getIconArray($settings, 'view_cart_icon');
+		$view_cart_icon = $this->getIconString($settings, 'view_cart_icon');
 		$view_cart_text = $this->get_setting($settings, 'view_cart_text', '');
 
 		// Get fallback text
@@ -244,6 +208,11 @@ class MT_WC_Bricks_Element_Add_To_Cart extends \Bricks\Element {
 			$button_classes[] = 'icon-position_' . $icon_position;
 		}
 
+		// Set root attributes
+		$this->set_attribute('_root', 'class', 'mt-wc-add-to-cart-wrapper');
+		$this->set_attribute('_root', 'data-product-id', $product->get_id());
+
+		// Render the element
 		?>
 		<div class="mt-wc-add-to-cart-wrapper">
 			<?php if ($product->is_in_stock()) : ?>
@@ -259,45 +228,20 @@ class MT_WC_Bricks_Element_Add_To_Cart extends \Bricks\Element {
 						data-error-icon="<?php echo esc_attr($error_icon); ?>"
 						aria-label="<?php echo esc_attr($display_text); ?>"
 					>
-						<?php echo $this->build_bricks_icon('icon', $default_icon); ?>
+						<?php echo self::render_icon($default_icon_arr, ['icon']); ?>
 
 						<?php if ($button_text) : ?>
 							<span class="button-text"><?php echo esc_html($button_text); ?></span>
 						<?php endif; ?>
 					</button>
 
-					<!-- Debug info -->
-					<?php if (defined('WP_DEBUG') && WP_DEBUG) : ?>
-						<div style="font-size: 12px; color: #666; margin-top: 5px; background: #f0f0f0; padding: 10px; border-radius: 4px;">
-							<strong>Icon Debug:</strong><br>
-							Default: <?php echo esc_html($default_icon); ?><br>
-							Loading: <?php echo esc_html($loading_icon); ?><br>
-							Success: <?php echo esc_html($success_icon); ?><br>
-							Error: <?php echo esc_html($error_icon); ?><br>
-							View Cart: <?php echo esc_html($view_cart_icon); ?><br>
-							<strong>Raw Settings:</strong><br>
-							<?php
-							$icon_settings = [
-								'default_icon' => $settings['default_icon'] ?? 'not set',
-								'loading_icon' => $settings['loading_icon'] ?? 'not set',
-								'success_icon' => $settings['success_icon'] ?? 'not set',
-								'error_icon' => $settings['error_icon'] ?? 'not set'
-							];
-							foreach ($icon_settings as $key => $value) {
-								echo $key . ': ' . (is_array($value) ? json_encode($value) : $value) . '<br>';
-							}
-							?>
-						</div>
-					<?php endif; ?>
-
 					<?php if ($show_view_cart) : ?>
 						<a
 							href="<?php echo esc_url(wc_get_cart_url()); ?>"
 							class="mt-wc-view-cart-button button"
-							style="display: none;"
-							aria-label="<?php echo esc_attr($view_cart_text ?: __('View Cart', 'woocommerce')); ?>"
+							aria-label="<?php echo esc_attr($view_cart_text ?: __('View Cart', 'mt-wc-bricks-add_to_cart')); ?>"
 						>
-							<?php echo $this->build_bricks_icon('icon', $view_cart_icon); ?>
+							<?php echo self::render_icon($view_cart_icon_arr, ['icon']); ?>
 
 							<?php if ($view_cart_text) : ?>
 								<span class="button-text"><?php echo esc_html($view_cart_text); ?></span>
@@ -306,143 +250,177 @@ class MT_WC_Bricks_Element_Add_To_Cart extends \Bricks\Element {
 					<?php endif; ?>
 				</div>
 			<?php else : ?>
-				<p class="stock out-of-stock"><?php esc_html_e('This product is currently out of stock.', 'woocommerce'); ?></p>
+				<p class="mt-wc-out-of-stock">
+					<?php echo esc_html($product->get_stock_status() === 'onbackorder' ? __('Available on backorder', 'woocommerce') : __('Out of stock', 'woocommerce')); ?>
+				</p>
 			<?php endif; ?>
 		</div>
 		<?php
 	}
 
-	// Get product based on settings
+	/**
+	 * Get product based on settings
+	 */
 	private function get_product($settings) {
-		$product_selection = $this->get_setting($settings, 'product', 'current');
+		$product_setting = $this->get_setting($settings, 'product', 'current');
 
-		if ($product_selection === 'current') {
-			// First try to get product from Bricks query loop context
-			if (class_exists('\Bricks\Query') && \Bricks\Query::is_any_looping()) {
-				$loop_object = \Bricks\Query::get_loop_object();
+		// Handle query loop context
+		if (class_exists('\Bricks\Query') && \Bricks\Query::is_any_looping()) {
+			$loop_object = \Bricks\Query::get_loop_object();
+			if ($loop_object && is_a($loop_object, 'WC_Product')) {
+				return $loop_object;
+			}
 
-				if ($loop_object) {
-					// Handle different loop object types
-					if (is_a($loop_object, 'WP_Post')) {
-						$product = wc_get_product($loop_object->ID);
-						if ($product && is_a($product, 'WC_Product')) {
-							return $product;
-						}
-					} elseif (is_a($loop_object, 'WC_Product')) {
-						return $loop_object;
-					}
+			// Derive product from loop object when it is a post
+			if ($loop_object instanceof \WP_Post) {
+				$product = wc_get_product($loop_object->ID);
+				if ($product && is_a($product, 'WC_Product')) {
+					return $product;
 				}
 			}
 
-			// Fallback to global product (for single product pages)
-			global $product;
+			$post = get_post();
+			if ($post) {
+				$product = wc_get_product($post->ID);
+				if ($product && is_a($product, 'WC_Product')) {
+					return $product;
+				}
+			}
+		}
+
+		// Handle specific product selection
+		if ($product_setting && $product_setting !== 'current') {
+			$product = wc_get_product($product_setting);
 			if ($product && is_a($product, 'WC_Product')) {
 				return $product;
 			}
-
-			// Fallback to current post
-			$post_id = get_the_ID();
-			if ($post_id) {
-				return wc_get_product($post_id);
-			}
-			return null;
 		}
 
-		if (is_numeric($product_selection)) {
-			return wc_get_product((int) $product_selection);
+		// Fallback to global product
+		global $product;
+		if ($product && is_a($product, 'WC_Product')) {
+			return $product;
 		}
 
 		return null;
 	}
 
-	// Get setting value with fallback
+	/**
+	 * Get setting value with default
+	 */
 	private function get_setting($settings, string $key, $default = '') {
-		return !empty($settings[$key]) ? $settings[$key] : $default;
+		if (isset($settings[$key]) && !empty($settings[$key])) {
+			return $settings[$key];
+		}
+		return $default;
 	}
 
-	// Get icon value from settings (handles Bricks icon control format)
-	private function get_icon_value($settings, string $key, string $default = '') {
-		$value = $this->get_setting($settings, $key, $default);
+	/**
+	 * Get icon value from settings
+	 */
+	private function get_icon_value($settings, string $key) {
+		$value = $this->get_setting($settings, $key, []);
 
-		// Handle Bricks icon control format - it returns arrays with 'library' and 'icon' properties
-		if (is_array($value)) {
-			$library = $value['library'] ?? 'fontawesome';
-			$icon = $value['icon'] ?? '';
+		if (is_array($value) && isset($value['library']) && isset($value['icon'])) {
+			$library = $value['library'];
+			$icon = $value['icon'];
 
-			// Convert library names to proper format
+			// Handle FontAwesome library variations
 			if ($library === 'fontawesomeSolid') {
 				$library = 'fontawesome';
 			}
 
-			// Return in format: "library icon-class"
 			return $library . ' ' . $icon;
 		}
 
-		// If it's a string, return as is
+		// Fallback to string value
 		if (is_string($value) && !empty($value)) {
 			return $value;
 		}
 
-		// Return default with proper format
-		$default_icons = [
+		// Return default based on key
+		$defaults = [
 			'default_icon' => 'fontawesome fas fa-shopping-cart',
 			'loading_icon' => 'fontawesome fas fa-spinner',
 			'success_icon' => 'fontawesome fas fa-check',
 			'error_icon' => 'fontawesome fas fa-times',
-			'view_cart_icon' => 'fontawesome fas fa-shopping-bag'
+			'view_cart_icon' => 'fontawesome fas fa-shopping-bag',
 		];
 
-		return $default_icons[$key] ?? $default;
+		return $defaults[$key] ?? 'fontawesome fas fa-shopping-cart';
 	}
 
-	// Build Bricks icon HTML with proper integration
-	private function build_bricks_icon(string $class, string $icon_name): string {
-		// Parse icon name (e.g., "fontawesome fas fa-shopping-cart")
-		$icon_parts = explode(' ', $icon_name);
-		$library = $icon_parts[0] ?? 'fontawesome';
-		$icon_class = implode(' ', array_slice($icon_parts, 1));
+	// Convert control value to Bricks icon array
+	private function getIconArray($settings, string $key): array {
+		$value = $this->get_setting($settings, $key, []);
+		if (is_array($value) && isset($value['library']) && isset($value['icon'])) {
+			$library = $value['library'] === 'fontawesomeSolid' ? 'fontawesome' : $value['library'];
+			return [
+				'library' => $library,
+				'icon' => $value['icon'],
+			];
+		}
+		// Defaults
+		$defaults = [
+			'default_icon' => ['library' => 'fontawesome', 'icon' => 'fas fa-shopping-cart'],
+			'loading_icon' => ['library' => 'fontawesome', 'icon' => 'fas fa-spinner'],
+			'success_icon' => ['library' => 'fontawesome', 'icon' => 'fas fa-check'],
+			'error_icon' => ['library' => 'fontawesome', 'icon' => 'fas fa-times'],
+			'view_cart_icon' => ['library' => 'fontawesome', 'icon' => 'fas fa-shopping-bag'],
+		];
+		return $defaults[$key] ?? ['library' => 'fontawesome', 'icon' => 'fas fa-shopping-cart'];
+	}
 
-		// Try Bricks icon system first
-		if (class_exists('\Bricks\Helpers') && method_exists('\Bricks\Helpers', 'get_icon_html')) {
-			try {
-				$icon_data = [
-					'library' => $library,
-					'name' => $icon_class
-				];
+	// Convert control value to "library classes" string for JS data-* attributes
+	private function getIconString($settings, string $key): string {
+		$icon = $this->getIconArray($settings, $key);
+		return trim(($icon['library'] ?? 'fontawesome') . ' ' . ($icon['icon'] ?? 'fas fa-shopping-cart'));
+	}
 
-				$icon_html = \Bricks\Helpers::get_icon_html($icon_data, [
-					'class' => 'icon ' . esc_attr($class),
-					'aria-hidden' => 'true'
-				]);
+	/**
+	 * Render icon using Bricks icon system
+	 * Note: Method name avoids clashing with Bricks\Element::render_icon (static)
+	 */
+	private function renderElementIcon(string $icon_value) {
+		// Parse icon value
+		$parts = explode(' ', $icon_value, 2);
+		$library = $parts[0] ?? 'fontawesome';
+		$icon = $parts[1] ?? 'fas fa-shopping-cart';
 
-				if ($icon_html) {
-					return $icon_html;
-				}
-			} catch (Exception $e) {
-				// Log error in debug mode
-				if (defined('WP_DEBUG') && WP_DEBUG) {
-					error_log('Bricks icon error: ' . $e->getMessage());
-				}
+		// Use Bricks icon system
+		if (class_exists('\Bricks\Helpers')) {
+			$icon_data = [
+				'library' => $library,
+				'name' => $icon
+			];
+
+			$icon_html = \Bricks\Helpers::get_icon_html($icon_data, [
+				'class' => 'icon',
+				'aria-hidden' => 'true'
+			]);
+
+			if ($icon_html) {
+				return $icon_html;
 			}
 		}
 
-		// Fallback to simple icon with proper accessibility
+		// Fallback to simple icon
 		return sprintf(
-			'<i class="icon %s %s" aria-hidden="true"></i>',
-			esc_attr($class),
-			esc_attr($icon_class)
+			'<i class="icon %s" aria-hidden="true"></i>',
+			esc_attr($icon)
 		);
 	}
 
-	// Get product options for select control
-	private function get_product_options(): array {
+	/**
+	 * Get products for select control
+	 */
+	private function get_products_options() {
 		$options = [
 			'current' => esc_html__('Current Product', 'mt-wc-bricks-add_to_cart'),
 		];
 
-		// Get recent products
 		$products = wc_get_products([
-			'limit' => 20,
+			'limit' => 100,
 			'status' => 'publish',
 		]);
 

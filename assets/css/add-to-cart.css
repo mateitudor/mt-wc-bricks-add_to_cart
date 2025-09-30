@@ -123,6 +123,20 @@
 .mt-wc-view-cart-button:focus-visible {
 	outline: 2px solid var(--mt-wc-color-primary);
 	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgba(0, 124, 186, 0.2);
+}
+
+/* Focus states for keyboard navigation */
+.mt-wc-add-to-cart-button:focus,
+.mt-wc-view-cart-button:focus {
+	outline: 2px solid var(--mt-wc-color-primary);
+	outline-offset: 2px;
+}
+
+/* Remove default focus outline for mouse users */
+.mt-wc-add-to-cart-button:focus:not(:focus-visible),
+.mt-wc-view-cart-button:focus:not(:focus-visible) {
+	outline: none;
 }
 
 /* Active States */
@@ -159,7 +173,6 @@
 .mt-wc-add-to-cart-button.is-success {
 	background: var(--mt-wc-color-success);
 	border-color: var(--mt-wc-color-success);
-	animation: success-bounce 0.6s var(--mt-wc-ease-out);
 }
 
 .mt-wc-add-to-cart-button.is-success .icon {
@@ -270,17 +283,6 @@
 	}
 }
 
-@keyframes success-bounce {
-	0%, 20%, 50%, 80%, 100% {
-		transform: translateY(0);
-	}
-	40% {
-		transform: translateY(-10px);
-	}
-	60% {
-		transform: translateY(-5px);
-	}
-}
 
 @keyframes error-shake {
 	0%, 100% {
@@ -327,6 +329,46 @@
 	.mt-wc-view-cart-button {
 		border-width: 2px;
 	}
+}
+
+/* Screen Reader Support */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Loading state for screen readers */
+.mt-wc-add-to-cart-button.is-loading[aria-label*="Adding"] {
+	position: relative;
+}
+
+.mt-wc-add-to-cart-button.is-loading[aria-label*="Adding"]::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 16px;
+	height: 16px;
+	margin: -8px 0 0 -8px;
+	border: 2px solid transparent;
+	border-top: 2px solid currentColor;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+/* Disabled state */
+.mt-wc-add-to-cart-button:disabled,
+.mt-wc-view-cart-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	pointer-events: none;
 }
 
 /* Dark Mode Support */

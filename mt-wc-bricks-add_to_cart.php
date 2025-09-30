@@ -77,6 +77,14 @@ function mt_wc_bricks_add_to_cart_enqueue_assets(): void {
 		);
 	}
 
+	// Enqueue FontAwesome for icons
+	wp_enqueue_style(
+		'font-awesome',
+		'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+		[],
+		'6.4.0'
+	);
+
 	if (file_exists($js_path)) {
 		wp_enqueue_script(
 			'mt-wc-bricks-add-to-cart',
@@ -89,20 +97,28 @@ function mt_wc_bricks_add_to_cart_enqueue_assets(): void {
 		// Localize script with AJAX parameters
 		wp_localize_script('mt-wc-bricks-add-to-cart', 'wc_add_to_cart_params', [
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('mt_wc_bricks_add_to_cart')
+			'nonce' => wp_create_nonce('mt_wc_bricks_add_to_cart'),
+			'debug' => defined('WP_DEBUG') && WP_DEBUG
 		]);
 	}
 }
 
 // WooCommerce AJAX handler
 function mt_wc_bricks_add_to_cart_ajax_handler() {
+	// Check if WooCommerce is active
+	if (!mt_wc_bricks_add_to_cart_is_woocommerce_active()) {
+		wp_send_json_error(['message' => 'WooCommerce is not active']);
+		return;
+	}
+
 	// Debug logging
 	if (defined('WP_DEBUG') && WP_DEBUG) {
 		error_log('AJAX Handler called with POST data: ' . print_r($_POST, true));
 	}
 
 	// Verify nonce
-	if (!wp_verify_nonce($_POST['nonce'] ?? '', 'mt_wc_bricks_add_to_cart')) {
+	$nonce = sanitize_text_field($_POST['nonce'] ?? '');
+	if (!wp_verify_nonce($nonce, 'mt_wc_bricks_add_to_cart')) {
 		if (defined('WP_DEBUG') && WP_DEBUG) {
 			error_log('AJAX nonce verification failed');
 		}
@@ -110,8 +126,8 @@ function mt_wc_bricks_add_to_cart_ajax_handler() {
 		return;
 	}
 
-	$product_id = intval($_POST['product_id'] ?? 0);
-	$quantity = intval($_POST['quantity'] ?? 1);
+	$product_id = intval(sanitize_text_field($_POST['product_id'] ?? 0));
+	$quantity = intval(sanitize_text_field($_POST['quantity'] ?? 1));
 
 	if (defined('WP_DEBUG') && WP_DEBUG) {
 		error_log("AJAX: product_id={$product_id}, quantity={$quantity}");
@@ -269,8 +285,53 @@ function mt_wc_bricks_add_to_cart_ajax_handler() {
 	}
 }
 
+// Load text domain
+function mt_wc_bricks_add_to_cart_load_textdomain(): void {
+	load_plugin_textdomain(
+		'mt-wc-bricks-add_to_cart',
+		false,
+		dirname(plugin_basename(__FILE__)) . '/languages'
+	);
+}
+
+// Plugin activation hook
+function mt_wc_bricks_add_to_cart_activate(): void {
+	// Check dependencies
+	if (!mt_wc_bricks_add_to_cart_is_woocommerce_active()) {
+		deactivate_plugins(plugin_basename(__FILE__));
+		wp_die(
+			esc_html__('MT WC Bricks Add to Cart requires WooCommerce to be installed and active.', 'mt-wc-bricks-add_to_cart'),
+			esc_html__('Plugin Activation Error', 'mt-wc-bricks-add_to_cart'),
+			['back_link' => true]
+		);
+	}
+
+	if (!mt_wc_bricks_add_to_cart_is_bricks_active()) {
+		deactivate_plugins(plugin_basename(__FILE__));
+		wp_die(
+			esc_html__('MT WC Bricks Add to Cart requires Bricks Builder theme to be installed and active.', 'mt-wc-bricks-add_to_cart'),
+			esc_html__('Plugin Activation Error', 'mt-wc-bricks-add_to_cart'),
+			['back_link' => true]
+		);
+	}
+
+	// Flush rewrite rules
+	flush_rewrite_rules();
+}
+
+// Plugin deactivation hook
+function mt_wc_bricks_add_to_cart_deactivate(): void {
+	// Flush rewrite rules
+	flush_rewrite_rules();
+}
+
 // Hook into WordPress
+add_action('init', 'mt_wc_bricks_add_to_cart_load_textdomain');
 add_action('init', 'mt_wc_bricks_add_to_cart_register_element', 11);
 add_action('wp_enqueue_scripts', 'mt_wc_bricks_add_to_cart_enqueue_assets');
 add_action('wp_ajax_mt_wc_bricks_add_to_cart', 'mt_wc_bricks_add_to_cart_ajax_handler');
 add_action('wp_ajax_nopriv_mt_wc_bricks_add_to_cart', 'mt_wc_bricks_add_to_cart_ajax_handler');
+
+// Activation and deactivation hooks
+register_activation_hook(__FILE__, 'mt_wc_bricks_add_to_cart_activate');
+register_deactivation_hook(__FILE__, 'mt_wc_bricks_add_to_cart_deactivate');

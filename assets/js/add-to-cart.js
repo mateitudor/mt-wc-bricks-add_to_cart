@@ -45,11 +45,14 @@ const utils = {
 
 	// Report errors with context
 	reportError: (error, context = {}) => {
-		console.error('MT WC Add to Cart Error:', {
-			error: error.message,
-			stack: error.stack,
-			context
-		});
+		// Only log in debug mode
+		if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+			console.error('MT WC Add to Cart Error:', {
+				error: error.message,
+				stack: error.stack,
+				context
+			});
+		}
 	},
 
 	// Update minicart with fragments
@@ -203,12 +206,15 @@ const ajaxHandler = {
 		const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
 		try {
-			console.log('Making AJAX request:', {
-				url: wc_add_to_cart_params.ajax_url,
-				productId,
-				quantity,
-				nonce: wc_add_to_cart_params.nonce
-			});
+			// Debug logging only in debug mode
+			if (wc_add_to_cart_params.debug) {
+				console.log('Making AJAX request:', {
+					url: wc_add_to_cart_params.ajax_url,
+					productId,
+					quantity,
+					nonce: wc_add_to_cart_params.nonce
+				});
+			}
 
 			const response = await fetch(wc_add_to_cart_params.ajax_url, {
 				method: 'POST',
@@ -226,14 +232,18 @@ const ajaxHandler = {
 
 			clearTimeout(timeoutId);
 
-			console.log('AJAX response status:', response.status);
+			if (wc_add_to_cart_params.debug) {
+				console.log('AJAX response status:', response.status);
+			}
 
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 			}
 
 			const data = await response.json();
-			console.log('AJAX response data:', data);
+			if (wc_add_to_cart_params.debug) {
+				console.log('AJAX response data:', data);
+			}
 			return data;
 
 		} catch (error) {
@@ -266,14 +276,16 @@ const handleAddToCart = async (event) => {
 	const successIcon = button.dataset.successIcon;
 	const errorIcon = button.dataset.errorIcon;
 
-	// Debug icon values
-	console.log('Icon Debug:', {
-		defaultIcon,
-		loadingIcon,
-		successIcon,
-		errorIcon,
-		button: button
-	});
+	// Debug icon values (only in debug mode)
+	if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+		console.log('Icon Debug:', {
+			defaultIcon,
+			loadingIcon,
+			successIcon,
+			errorIcon,
+			button: button
+		});
+	}
 
 	// Validate required data
 	if (!productId) {
@@ -336,19 +348,24 @@ const handleAddToCart = async (event) => {
 // Debounced event handler
 const debouncedHandler = utils.debounce(handleAddToCart, 100);
 
-// Initialize when DOM is ready
+	// Initialize when DOM is ready
 const init = () => {
 	// Find all add to cart buttons that don't already have event listeners
 	const buttons = document.querySelectorAll('.mt-wc-add-to-cart-button:not([data-mt-wc-initialized])');
 	const allButtons = document.querySelectorAll('.mt-wc-add-to-cart-button');
 
-	console.log('MT WC Add to Cart: Found', allButtons.length, 'total buttons');
-	console.log('MT WC Add to Cart: Found', buttons.length, 'uninitialized buttons');
-	console.log('All buttons:', allButtons);
+	// Debug logging only in debug mode
+	if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+		console.log('MT WC Add to Cart: Found', allButtons.length, 'total buttons');
+		console.log('MT WC Add to Cart: Found', buttons.length, 'uninitialized buttons');
+		console.log('All buttons:', allButtons);
+	}
 
 	if (buttons.length === 0) return;
 
-	console.log('MT WC Add to Cart: Initializing', buttons.length, 'buttons');
+	if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+		console.log('MT WC Add to Cart: Initializing', buttons.length, 'buttons');
+	}
 
 	// Add event listeners
 	buttons.forEach(button => {
@@ -366,7 +383,9 @@ const init = () => {
 			button.dataset.defaultText = button.getAttribute('aria-label') || 'Add to cart';
 		}
 
-		console.log('MT WC Add to Cart: Button initialized', button);
+		if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+			console.log('MT WC Add to Cart: Button initialized', button);
+		}
 	});
 
 	// Cleanup on page unload (only add once)
@@ -390,8 +409,11 @@ if (document.readyState === 'loading') {
 // Force reinitialize function for buttons that might not be working
 const forceReinit = () => {
 	const allButtons = document.querySelectorAll('.mt-wc-add-to-cart-button');
-	console.log('MT WC Add to Cart: Force reinitializing', allButtons.length, 'buttons');
-	console.log('Force reinit - All buttons:', allButtons);
+	
+	if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+		console.log('MT WC Add to Cart: Force reinitializing', allButtons.length, 'buttons');
+		console.log('Force reinit - All buttons:', allButtons);
+	}
 
 	allButtons.forEach(button => {
 		// Remove existing event listeners
@@ -403,16 +425,22 @@ const forceReinit = () => {
 		// Ensure it's marked as initialized
 		button.setAttribute('data-mt-wc-initialized', 'true');
 
-		console.log('MT WC Add to Cart: Button force reinitialized', button);
+		if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+			console.log('MT WC Add to Cart: Button force reinitialized', button);
+		}
 	});
 };
 
 // Reinitialize when Bricks loads new content (query loops, AJAX, etc.)
 document.addEventListener('bricks/ajax/nodes_added', () => {
-	console.log('MT WC Add to Cart: Bricks nodes added event fired');
+	if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+		console.log('MT WC Add to Cart: Bricks nodes added event fired');
+	}
 	// Small delay to ensure DOM is updated
 	setTimeout(() => {
-		console.log('MT WC Add to Cart: Reinitializing after Bricks nodes added');
+		if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+			console.log('MT WC Add to Cart: Reinitializing after Bricks nodes added');
+		}
 		init();
 		// Also force reinit all buttons to ensure they work
 		forceReinit();
@@ -438,11 +466,15 @@ const observer = new MutationObserver((mutations) => {
 	});
 
 	if (shouldReinit) {
-		console.log('MT WC Add to Cart: MutationObserver detected new buttons, reinitializing');
+		if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+			console.log('MT WC Add to Cart: MutationObserver detected new buttons, reinitializing');
+		}
 		// Debounce reinitialization to avoid multiple calls
 		clearTimeout(observer.timeout);
 		observer.timeout = setTimeout(() => {
-			console.log('MT WC Add to Cart: MutationObserver timeout - reinitializing');
+			if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.debug) {
+				console.log('MT WC Add to Cart: MutationObserver timeout - reinitializing');
+			}
 			init();
 		}, 100);
 	}
