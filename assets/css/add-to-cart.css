@@ -169,6 +169,7 @@
 }
 
 .mt-wc-add-to-cart-button.is-loading .icon {
+	color: var(--mt-wc-icon-color-loading, currentColor);
 	animation: spin 1s linear infinite;
 }
 
@@ -179,12 +180,22 @@
 	border-color: var(--mt-wc-button-bg-success, var(--mt-wc-color-success));
 }
 
+/* Success State Icon - Higher specificity to override base icon color */
+.mt-wc-add-to-cart-button.is-success .icon {
+	color: var(--mt-wc-icon-color-success, currentColor);
+}
+
 /* Error State */
 .mt-wc-add-to-cart-button.is-error {
 	--mt-wc-icon-color: var(--mt-wc-icon-color-error, currentColor);
 	background: var(--mt-wc-button-bg-error, var(--mt-wc-color-error));
 	border-color: var(--mt-wc-button-bg-error, var(--mt-wc-color-error));
 	animation: error-shake var(--mt-wc-duration-normal) var(--mt-wc-ease-out);
+}
+
+/* Error State Icon - Higher specificity to override base icon color */
+.mt-wc-add-to-cart-button.is-error .icon {
+	color: var(--mt-wc-icon-color-error, currentColor);
 }
 
 /* ===== COMPONENT VARIANTS ===== */
