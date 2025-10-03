@@ -72,7 +72,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['default_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Default Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -82,28 +82,28 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['default_icon_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Default Icon Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
 
 		$this->controls['button_background'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Button Background Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
 
 		$this->controls['button_border_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Button Border Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
 
 		$this->controls['button_text_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Text Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Button Text Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
@@ -117,21 +117,21 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['button_background_hover'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Button Background Color (Hover)', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
 
 		$this->controls['button_border_color_hover'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Button Border Color (Hover)', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
 
 		$this->controls['button_text_color_hover'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Text Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Button Text Color (Hover)', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
@@ -145,7 +145,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['error_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Error Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -155,14 +155,14 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['error_icon_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Error Icon Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
 
 		$this->controls['error_background'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Error Background Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
@@ -176,7 +176,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['success_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Success Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -186,14 +186,14 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['success_icon_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Success Icon Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
 
 		$this->controls['success_background'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Success Background Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
@@ -207,7 +207,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['loading_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Loading Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -217,7 +217,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['loading_icon_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('Loading Icon Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 		];
@@ -238,7 +238,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_icon'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Icon', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'icon',
 			'default' => [
 				'library' => 'fontawesome',
@@ -249,7 +249,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_icon_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Icon Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 			'required' => ['show_view_cart', '=', true],
@@ -257,7 +257,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_background'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Background Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 			'required' => ['show_view_cart', '=', true],
@@ -265,7 +265,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_border_color'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Border Color', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 			'required' => ['show_view_cart', '=', true],
@@ -273,7 +273,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_text'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Text', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Text', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'text',
 			'default' => '',
 			'placeholder' => esc_html__('View Cart', 'mt-wc-bricks-add_to_cart'),
@@ -289,7 +289,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_icon_color_hover'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Icon Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Icon Color (Hover)', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 			'required' => ['show_view_cart', '=', true],
@@ -297,7 +297,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_background_hover'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Background Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Background Color (Hover)', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 			'required' => ['show_view_cart', '=', true],
@@ -305,7 +305,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 
 		$this->controls['view_cart_border_color_hover'] = [
 			'tab' => 'content',
-			'label' => esc_html__('Border Color', 'mt-wc-bricks-add_to_cart'),
+			'label' => esc_html__('View Cart Border Color (Hover)', 'mt-wc-bricks-add_to_cart'),
 			'type' => 'color',
 			'inline' => true,
 			'required' => ['show_view_cart', '=', true],
