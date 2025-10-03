@@ -75,7 +75,7 @@ const utils = {
 	},
 
 	// Trigger WooCommerce events
-	triggerWooCommerceEvents: (data) => {
+	triggerWooCommerceEvents: (data, button) => {
 		// Trigger WooCommerce added_to_cart event
 		document.body.dispatchEvent(new CustomEvent('added_to_cart', {
 			detail: {
@@ -93,11 +93,8 @@ const utils = {
 			}
 		}));
 
-		// Trigger jQuery events for compatibility
-		if (typeof jQuery !== 'undefined') {
-			jQuery(document.body).trigger('added_to_cart', [data.fragments, data.cart_hash, jQuery()]);
-			jQuery(document.body).trigger('wc_cart_updated', [data.fragments, data.cart_hash]);
-		}
+		// Skip jQuery events to avoid Bricks WooCommerce integration conflicts
+		// The custom events above are sufficient for most integrations
 	},
 
 	// Display WooCommerce notices
@@ -214,6 +211,30 @@ const buttonState = {
 
 		// Update icon if provided
 		if (iconClass) setIcon(button, iconClass);
+
+		// Hide text during state changes for icon-only add to cart component
+		// Handle both .button-text spans and direct text content
+		const textElement = button.querySelector('.button-text');
+		const directTextNodes = Array.from(button.childNodes).filter(node =>
+			node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ''
+		);
+
+		if (textElement) {
+			if (state === 'success' || state === 'error' || state === 'loading') {
+				textElement.style.display = 'none';
+			} else {
+				textElement.style.display = '';
+			}
+		}
+
+		// Hide direct text content during state changes
+		directTextNodes.forEach(node => {
+			if (state === 'success' || state === 'error' || state === 'loading') {
+				node.style.display = 'none';
+			} else {
+				node.style.display = '';
+			}
+		});
 
 		// Update accessibility attributes
 		const ariaLabels = {
@@ -359,7 +380,7 @@ const handleAddToCart = async (event) => {
 
 			// Update minicart and trigger WooCommerce events
 			utils.updateMinicart(result.data);
-			utils.triggerWooCommerceEvents(result.data);
+			utils.triggerWooCommerceEvents(result.data, button);
 			utils.displayNotices(result.data.notices);
 
 			// Reset after delay

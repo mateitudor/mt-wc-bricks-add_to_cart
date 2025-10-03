@@ -238,8 +238,11 @@ function mt_wc_bricks_add_to_cart_ajax_handler() {
 		wc_add_notice($notice_message, 'success');
 
 		// Trigger WooCommerce events for minicart and notifications
-		do_action('woocommerce_add_to_cart', $cart_item_key, $product_id, $quantity, 0, []);
-		do_action('woocommerce_ajax_added_to_cart', $product_id, $quantity, 0);
+		$variation_id   = 0;
+		$variation      = [];
+		$cart_item_data = [];
+		do_action('woocommerce_add_to_cart', $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data);
+		do_action('woocommerce_ajax_added_to_cart', $product_id, $quantity, $variation_id, $variation, $cart_item_data);
 
 		// Get cart fragments for minicart update
 		$cart_fragments = apply_filters('woocommerce_add_to_cart_fragments', []);
@@ -267,7 +270,8 @@ function mt_wc_bricks_add_to_cart_ajax_handler() {
 			'cart_count' => WC()->cart->get_cart_contents_count(),
 			'cart_hash' => WC()->cart->get_cart_hash(),
 			'fragments' => $cart_fragments,
-			'notices' => $notices_html
+			'notices' => $notices_html,
+			'product_id' => $product_id
 		]);
 	} else {
 		if (defined('WP_DEBUG') && WP_DEBUG) {

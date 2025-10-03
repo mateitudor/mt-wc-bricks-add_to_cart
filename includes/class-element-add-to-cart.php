@@ -430,7 +430,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 						aria-label="<?php echo esc_attr($display_text); ?>"
 					<?php echo $style_attr; ?>
 					>
-						<?php echo $this->render_icon($default_icon_arr, ['icon']); ?>
+						<?php echo self::render_icon($default_icon_arr, ['icon']); ?>
 
 						<?php if ($button_text) : ?>
 							<span class="button-text"><?php echo esc_html($button_text); ?></span>
@@ -443,7 +443,7 @@ class Element_Add_To_Cart extends \Bricks\Element {
 							class="mt-wc-view-cart-button button"
 							aria-label="<?php echo esc_attr($view_cart_text ?: __('View Cart', 'mt-wc-bricks-add_to_cart')); ?>"
 						>
-							<?php echo $this->render_icon($view_cart_icon_arr, ['icon']); ?>
+							<?php echo self::render_icon($view_cart_icon_arr, ['icon']); ?>
 
 							<?php if ($view_cart_text) : ?>
 								<span class="button-text"><?php echo esc_html($view_cart_text); ?></span>
